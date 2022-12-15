@@ -2,7 +2,7 @@
 
 ### Install
 
-Install the `streply/streply-bundle` package:
+Install the `streply/streply-symfony` package:
 
 ```bash
 composer require streply/streply-symfony
