@@ -7,6 +7,7 @@ use Streply\Exceptions\NotInitializedException;
 use Streply\StreplyBundle\StreplyClient;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use function Streply\Exception;
 
 final class RequestListener
@@ -29,10 +30,10 @@ final class RequestListener
         $this->streplyClient = $streplyClient;
     }
 
-	/**
-	 * @param RequestEvent $event
-	 * @return void
-	 */
+    /**
+     * @param RequestEvent $event
+     * @throws InvalidDsnException
+     */
     public function onKernelRequest(RequestEvent $event): void
     {
 		if(method_exists($event, 'isMainRequest')) {
@@ -51,20 +52,20 @@ final class RequestListener
         $this->isInitialized = true;
     }
 
-	/**
-	 * @return void
-	 */
-    public function onKernelResponse(): void
+    /**
+     * @param ResponseEvent $event
+     */
+    public function onKernelResponse(ResponseEvent $event): void
     {
         if(true === $this->isInitialized) {
             $this->streplyClient->flush();
         }
     }
 
-	/**
-	 * @param ExceptionEvent $event
-	 * @return void
-	 */
+    /**
+     * @param ExceptionEvent $event
+     * @throws NotInitializedException
+     */
     public function onKernelException(ExceptionEvent $event): void
     {
         if(true === $this->isInitialized) {

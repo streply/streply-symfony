@@ -13,11 +13,20 @@
     <services>
         <service id="streply.streply_bundle.streply_client" class="%streply.streply_bundle.streply_client.class%">
         </service>
+
         <service id="streply.streply_bundle.request" class="%streply.streply_bundle.request_listener.class%">
             <argument type="service" id="streply.streply_bundle.streply_client" />
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="-1024" />
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0" />
-            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-1024" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="2048" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="-64" />
+            <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" priority="-64" />
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-2048" />
+        </service>
+
+        <service id="streply.streply_bundle.command" class="%streply.streply_bundle.command_listener.class%">
+            <argument type="service" id="streply.streply_bundle.streply_client" />
+            <tag name="kernel.event_listener" event="console.command" method="onConsoleCommand" priority="128" />
+            <tag name="kernel.event_listener" event="console.error" method="onConsoleError" priority="-64" />
+            <tag name="kernel.event_listener" event="console.terminate" method="onConsoleTerminate" priority="-64" />
         </service>
     </services>
 </container>
