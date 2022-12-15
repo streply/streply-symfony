@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <parameters>
+        <parameter key="streply.streply_bundle.streply_client.class">Streply\StreplyBundle\StreplyClient</parameter>
+        <parameter key="streply.streply_bundle.request_listener.class">Streply\StreplyBundle\EventListener\RequestListener</parameter>
+        <parameter key="streply.streply_bundle.command_listener.class">Streply\StreplyBundle\EventListener\CommandListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="streply.streply_bundle.streply_client" class="%streply.streply_bundle.streply_client.class%">
+        </service>
+        <service id="streply.streply_bundle.request" class="%streply.streply_bundle.request_listener.class%">
+            <argument type="service" id="streply.streply_bundle.streply_client" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="-1024" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0" />
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-1024" />
+        </service>
+    </services>
+</container>

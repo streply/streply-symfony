@@ -1,0 +1,13 @@
+{
+    "name": "streply/streply-symfony",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Streply\\StreplyBundle\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/framework-bundle": "^5.0 || ^6.0",
+        "streply/streply-php": "^0.0.21"
+    }
+}
