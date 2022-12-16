@@ -18,7 +18,6 @@
             <argument type="service" id="streply.streply_bundle.streply_client" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="2048" />
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="-64" />
-            <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" priority="-64" />
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-2048" />
         </service>
 
