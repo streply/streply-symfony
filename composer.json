@@ -8,6 +8,6 @@
     },
     "require": {
         "symfony/framework-bundle": "^5.0 || ^6.0",
-        "streply/streply-php": "^0.0.21"
+        "streply/streply-php": "0.0.*"
     }
 }

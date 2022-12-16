@@ -3,7 +3,9 @@
 namespace Streply\StreplyBundle;
 
 use Streply\Exceptions\InvalidDsnException;
+use Streply\Exceptions\InvalidUserException;
 use Streply\Streply;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class StreplyClient
 {
@@ -42,5 +44,16 @@ final class StreplyClient
     public function flush(): void
     {
         Streply::Flush();
+    }
+
+    /**
+     * @param UserInterface|null $user
+     * @throws InvalidUserException
+     */
+    public function user(?UserInterface $user)
+    {
+        if (null !== $user) {
+            Streply::User($user);
+        }
     }
 }
