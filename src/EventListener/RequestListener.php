@@ -86,8 +86,14 @@ final class RequestListener
     /**
      * @return UserInterface|null
      */
-    private function getUser(): ?UserInterface
-    {
-        return $this->tokenStorage ? $this->tokenStorage->getToken()->getUser() : null;
-    }
+	private function getUser(): ?UserInterface
+	{
+		if(null !== $this->tokenStorage) {
+			if(null !== $this->tokenStorage->getToken()) {
+				return $this->tokenStorage->getToken()->getUser();
+			}
+		}
+
+		return null;
+	}
 }
