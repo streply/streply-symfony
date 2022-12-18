@@ -6,7 +6,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Streply\Store\Providers\MemoryProvider;
 
 final class StreplyExtension extends Extension
 {
@@ -25,9 +24,6 @@ final class StreplyExtension extends Extension
 
         $definition = $container->getDefinition('streply.streply_bundle.streply_client');
         $definition->setArgument(0, $config['dsn'] ?? '');
-        $definition->setArgument(1, [
-			'environment' => $container->getParameter('kernel.environment'),
-			'storeProvider' => new MemoryProvider(),
-		]);
+        $definition->setArgument(1, ['environment' => $container->getParameter('kernel.environment')]);
     }
 }
