@@ -68,6 +68,7 @@ final class RequestListener
     public function onKernelResponse(ResponseEvent $event): void
     {
         if(true === $this->isInitialized) {
+			$this->streplyClient->user($this->getUser());
             $this->streplyClient->flush();
         }
     }

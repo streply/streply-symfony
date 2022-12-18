@@ -56,7 +56,7 @@ final class StreplyClient
     public function user(?UserInterface $user)
     {
         if (null !== $user) {
-            Streply::User($user);
+            Streply::User($user->getUserIdentifier());
         }
     }
 }
