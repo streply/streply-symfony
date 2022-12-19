@@ -92,7 +92,11 @@ final class RequestListener
 	{
 		if(null !== $this->tokenStorage) {
 			if(null !== $this->tokenStorage->getToken()) {
-				return $this->tokenStorage->getToken()->getUser();
+				$user = $this->tokenStorage->getToken()->getUser();
+
+				if($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+					return $user;
+				}
 			}
 		}
 
