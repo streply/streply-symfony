@@ -64,6 +64,7 @@ final class RequestListener
 
     /**
      * @param ResponseEvent $event
+     * @throws InvalidUserException
      */
     public function onKernelResponse(ResponseEvent $event): void
     {
