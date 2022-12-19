@@ -13,6 +13,11 @@ use function Streply\Exception;
 final class CommandListener
 {
     /**
+     * @var bool
+     */
+    private bool $isInitialized = false;
+
+    /**
      * @var StreplyClient
      */
     private StreplyClient $streplyClient;
@@ -32,6 +37,7 @@ final class CommandListener
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
         $this->streplyClient->initialize();
+        $this->isInitialized = true;
     }
 
     /**
@@ -39,7 +45,9 @@ final class CommandListener
      */
     public function onConsoleTerminate(ConsoleTerminateEvent $event)
     {
-        $this->streplyClient->flush();
+        if(true === $this->isInitialized) {
+            $this->streplyClient->flush();
+        }
     }
 
     /**
@@ -48,6 +56,8 @@ final class CommandListener
      */
     public function onConsoleError(ConsoleErrorEvent $event)
     {
-        Exception($event->getError());
+        if(true === $this->isInitialized) {
+            Exception($event->getError());
+        }
     }
 }
