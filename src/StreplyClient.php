@@ -7,6 +7,7 @@ use Streply\Exceptions\InvalidUserException;
 use Streply\Streply;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Streply\Store\Providers\MemoryProvider;
+use function Streply\Log;
 
 final class StreplyClient
 {
@@ -58,5 +59,14 @@ final class StreplyClient
         if (null !== $user) {
             Streply::User($user->getUserIdentifier());
         }
+    }
+
+    /**
+     * @param string $name
+     * @param array $parameters
+     */
+    public function log(string $name, array $parameters = [])
+    {
+        Log($name, $parameters);
     }
 }

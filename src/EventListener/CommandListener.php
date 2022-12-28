@@ -38,6 +38,12 @@ final class CommandListener
     {
         $this->streplyClient->initialize();
         $this->isInitialized = true;
+
+        $arguments = $event->getInput()->getArguments();
+        $name = $arguments['command'];
+        unset($arguments['command']);
+
+        $this->streplyClient->log($name, $arguments);
     }
 
     /**
