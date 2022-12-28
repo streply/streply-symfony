@@ -69,4 +69,13 @@ final class StreplyClient
     {
         Log($name, $parameters);
     }
+
+	/**
+	 * @param string|null $route
+	 * @return void
+	 */
+	public function setRoute(?string $route): void
+	{
+		Streply::parameterBag()->set('performance.route', $route);
+	}
 }

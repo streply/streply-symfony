@@ -69,6 +69,24 @@ final class RequestListener
     public function onKernelResponse(ResponseEvent $event): void
     {
         if(true === $this->isInitialized) {
+			$pathInfo = $event->getRequest()->getPathInfo();
+
+			if($event->getRequest()->attributes->has('_route_params')) {
+				$routeParams = $event->getRequest()->attributes->get('_route_params');
+				$routeParamsName = array_values($routeParams);
+				$routeParamsValue = array_map(function($value) {
+					return sprintf('{%s}', $value);
+				}, array_keys($routeParams));
+
+				$this->streplyClient->setRoute(
+					str_replace(
+						$routeParamsName,
+						$routeParamsValue,
+						$pathInfo
+					)
+				);
+			}
+
 			$this->streplyClient->user($this->getUser());
             $this->streplyClient->flush();
         }
