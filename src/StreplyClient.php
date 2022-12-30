@@ -7,6 +7,7 @@ use Streply\Exceptions\InvalidUserException;
 use Streply\Streply;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Streply\Store\Providers\MemoryProvider;
+use Streply\Responses\Entity;
 use function Streply\Log;
 
 final class StreplyClient
@@ -61,13 +62,14 @@ final class StreplyClient
         }
     }
 
-    /**
-     * @param string $name
-     * @param array $parameters
-     */
-    public function log(string $name, array $parameters = [])
+	/**
+	 * @param string $name
+	 * @param array $parameters
+	 * @return Entity
+	 */
+    public function log(string $name, array $parameters = []): Entity
     {
-        Log($name, $parameters);
+        return Log($name, $parameters);
     }
 
 	/**

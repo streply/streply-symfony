@@ -8,6 +8,7 @@ use Streply\StreplyBundle\StreplyClient;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Streply\Enum\EventFlag;
 use function Streply\Exception;
 
 final class CommandListener
@@ -41,9 +42,10 @@ final class CommandListener
 
         $arguments = $event->getInput()->getArguments();
         $name = $arguments['command'];
+
         unset($arguments['command']);
 
-        $this->streplyClient->log($name, $arguments);
+        $this->streplyClient->log($name, $arguments)->flag(EventFlag::COMMAND);
     }
 
     /**
