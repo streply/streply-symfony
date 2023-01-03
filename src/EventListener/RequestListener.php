@@ -6,6 +6,7 @@ use Streply\Exceptions\InvalidDsnException;
 use Streply\Exceptions\InvalidUserException;
 use Streply\Exceptions\NotInitializedException;
 use Streply\StreplyBundle\StreplyClient;
+use Streply\StreplyBundle\Route\Params;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -69,24 +70,11 @@ final class RequestListener
     public function onKernelResponse(ResponseEvent $event): void
     {
         if(true === $this->isInitialized) {
-			$pathInfo = $event->getRequest()->getPathInfo();
+			$params = new Params();
+			$routeName = $params->getRouteName();
 
-			if($event->getRequest()->attributes->has('_route_params')) {
-				$routeParams = $event->getRequest()->attributes->get('_route_params');
-				$routeParamsName = array_map(function($value) {
-					return '/' . $value;
-				}, array_values($routeParams));
-				$routeParamsValue = array_map(function($value) {
-					return sprintf('/{%s}', $value);
-				}, array_keys($routeParams));
-
-				$this->streplyClient->setRoute(
-					str_replace(
-						$routeParamsName,
-						$routeParamsValue,
-						$pathInfo
-					)
-				);
+			if(null !== $routeName) {
+				$this->streplyClient->setRoute($routeName);
 			}
 
 			$this->streplyClient->user($this->getUser());
