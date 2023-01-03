@@ -70,7 +70,7 @@ final class RequestListener
     public function onKernelResponse(ResponseEvent $event): void
     {
         if(true === $this->isInitialized) {
-			$params = new Params();
+			$params = new Params($event);
 			$routeName = $params->getRouteName();
 
 			if(null !== $routeName) {
