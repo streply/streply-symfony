@@ -73,9 +73,11 @@ final class RequestListener
 
 			if($event->getRequest()->attributes->has('_route_params')) {
 				$routeParams = $event->getRequest()->attributes->get('_route_params');
-				$routeParamsName = array_values($routeParams);
+				$routeParamsName = array_map(function($value) {
+					return '/' . $value;
+				}, array_values($routeParams));
 				$routeParamsValue = array_map(function($value) {
-					return sprintf('{%s}', $value);
+					return sprintf('/{%s}', $value);
 				}, array_keys($routeParams));
 
 				$this->streplyClient->setRoute(
