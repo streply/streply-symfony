@@ -45,7 +45,7 @@ final class CommandListener
 
         unset($arguments['command']);
 
-        $this->streplyClient->log($name, $arguments)->flag(EventFlag::COMMAND);
+        $this->streplyClient->activity($name, $arguments)->flag(EventFlag::COMMAND);
     }
 
     /**

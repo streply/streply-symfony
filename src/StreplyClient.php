@@ -8,7 +8,6 @@ use Streply\Streply;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Streply\Store\Providers\MemoryProvider;
 use Streply\Responses\Entity;
-use function Streply\Log;
 
 final class StreplyClient
 {
@@ -67,9 +66,9 @@ final class StreplyClient
 	 * @param array $parameters
 	 * @return Entity
 	 */
-    public function log(string $name, array $parameters = []): Entity
+    public function activity(string $name, array $parameters = []): Entity
     {
-        return Log($name, $parameters);
+        return \Streply\Activity($name, $parameters);
     }
 
 	/**
