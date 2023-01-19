@@ -89,13 +89,22 @@ class Params
 	public function getRouteName(): ?string
 	{
 		if($this->event->getRequest()->attributes->has('_route_params')) {
+			$routeName = [];
 			$routeParams = $this->routeParams();
+			$pathInfoParts = array_filter(explode('/', $this->getPathInfo()), function($row) {
+				return empty($row) === false;
+			});
 
-			return str_replace(
-				$this->routeParamsNames($routeParams),
-				$this->routeParamsValue($routeParams),
-				$this->getPathInfo()
-			);
+			foreach($pathInfoParts as $pathInfoPart) {
+				if(false === in_array($pathInfoPart, $routeParams, true)) {
+					$routeName[] = $pathInfoPart;
+				} else {
+					$partName = array_search($pathInfoPart, $routeParams, true);
+					$routeName[] = sprintf('{%s}', $partName);
+				}
+			}
+
+			return '/' . implode('/', $routeName);
 		}
 
 		return null;
