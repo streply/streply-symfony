@@ -1,5 +1,6 @@
 {
     "name": "streply/streply-symfony",
+    "description": "Streply Symfony SDK",
     "license": "MIT",
     "autoload": {
         "psr-4": {
