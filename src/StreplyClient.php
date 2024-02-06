@@ -11,30 +11,16 @@ use Streply\Responses\Entity;
 
 final class StreplyClient
 {
-    /**
-     * @var string
-     */
     protected string $dsn;
 
-    /**
-     * @var array
-     */
     protected array $options;
 
-    /**
-     * @param string $dsn
-     * @param array $options
-     */
     public function __construct(string $dsn, array $options)
     {
         $this->dsn = $dsn;
         $this->options = $options;
     }
 
-    /**
-     * @throws InvalidDsnException
-	 * @return void
-     */
     public function initialize(): void
     {
 		$this->options['storeProvider'] = new MemoryProvider();
@@ -42,18 +28,11 @@ final class StreplyClient
         Streply::Initialize($this->dsn, $this->options);
     }
 
-    /**
-     * @return void
-     */
     public function flush(): void
     {
         Streply::Flush();
     }
 
-    /**
-     * @param UserInterface|null $user
-     * @throws InvalidUserException
-     */
     public function user(?UserInterface $user)
     {
         if (null !== $user) {
@@ -61,20 +40,11 @@ final class StreplyClient
         }
     }
 
-	/**
-	 * @param string $name
-	 * @param array $parameters
-	 * @return Entity
-	 */
-    public function activity(string $name, array $parameters = []): Entity
+    public function activity(string $name, array $parameters = [], ?string $flag = null): Entity
     {
-        return \Streply\Activity($name, $parameters);
+        return \Streply\Activity($name, $parameters, null, $flag);
     }
 
-	/**
-	 * @param string|null $route
-	 * @return void
-	 */
 	public function setRoute(?string $route): void
 	{
 		Streply::Properties()->setForPerformance('route', $route);

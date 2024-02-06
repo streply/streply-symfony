@@ -6,27 +6,15 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class Params
 {
-	/**
-	 *
-	 */
 	private const NOT_ALLOWED_INTERNAL_PARAMS = ['permanent', 'scheme', 'httpPort', 'httpsPort'];
 
-	/**
-	 * @var ResponseEvent
-	 */
 	private ResponseEvent $event;
 
-	/**
-	 * @param ResponseEvent $event
-	 */
 	public function __construct(ResponseEvent $event)
 	{
 		$this->event = $event;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getPathInfo(): string
 	{
 		$pathInfo = $this->event->getRequest()->getPathInfo();
@@ -38,9 +26,6 @@ class Params
 		return $pathInfo;
 	}
 
-	/**
-	 * @return array
-	 */
 	public function routeParams(): array
 	{
 		$params = $this->event->getRequest()->attributes->get('_route_params');
@@ -55,10 +40,6 @@ class Params
 		);
 	}
 
-	/**
-	 * @param array $routeParams
-	 * @return array
-	 */
 	public function routeParamsNames(array $routeParams): array
 	{
 		return array_map(
@@ -69,10 +50,6 @@ class Params
 		);
 	}
 
-	/**
-	 * @param array $routeParams
-	 * @return array
-	 */
 	public function routeParamsValue(array $routeParams): array
 	{
 		return array_map(
@@ -83,9 +60,6 @@ class Params
 		);
 	}
 
-	/**
-	 * @return string|null
-	 */
 	public function getRouteName(): ?string
 	{
 		if($this->event->getRequest()->attributes->has('_route_params')) {

@@ -13,29 +13,16 @@ use function Streply\Exception;
 
 final class CommandListener
 {
-    /**
-     * @var bool
-     */
     private bool $isInitialized = false;
 
-    /**
-     * @var StreplyClient
-     */
     private StreplyClient $streplyClient;
 
-    /**
-     * @param StreplyClient $streplyClient
-     */
     public function __construct(StreplyClient $streplyClient)
     {
         $this->streplyClient = $streplyClient;
     }
 
-    /**
-     * @param ConsoleCommandEvent $event
-     * @throws InvalidDsnException
-     */
-    public function onConsoleCommand(ConsoleCommandEvent $event)
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $this->streplyClient->initialize();
         $this->isInitialized = true;
@@ -45,24 +32,17 @@ final class CommandListener
 
         unset($arguments['command']);
 
-        $this->streplyClient->activity($name, $arguments)->flag(EventFlag::COMMAND);
+        $this->streplyClient->activity($name, $arguments, EventFlag::COMMAND);
     }
 
-    /**
-     * @param ConsoleTerminateEvent $event
-     */
-    public function onConsoleTerminate(ConsoleTerminateEvent $event)
+    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
     {
         if(true === $this->isInitialized) {
             $this->streplyClient->flush();
         }
     }
 
-    /**
-     * @param ConsoleErrorEvent $event
-     * @throws NotInitializedException
-     */
-    public function onConsoleError(ConsoleErrorEvent $event)
+    public function onConsoleError(ConsoleErrorEvent $event): void
     {
         if(true === $this->isInitialized) {
             Exception($event->getError());
