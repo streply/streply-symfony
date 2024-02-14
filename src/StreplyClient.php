@@ -6,7 +6,6 @@ use Streply\Exceptions\InvalidDsnException;
 use Streply\Exceptions\InvalidUserException;
 use Streply\Streply;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Streply\Store\Providers\MemoryProvider;
 use Streply\Responses\Entity;
 
 final class StreplyClient
@@ -23,8 +22,6 @@ final class StreplyClient
 
     public function initialize(): void
     {
-		$this->options['storeProvider'] = new MemoryProvider();
-
         Streply::Initialize($this->dsn, $this->options);
     }
 
