@@ -49,6 +49,11 @@ final class RequestListener
         }
     }
 
+    public function onKernelResponse(ResponseEvent $event): void
+    {
+
+    }
+
 	private function getUser(): ?UserInterface
 	{
 		if((null !== $this->tokenStorage) && null !== $this->tokenStorage->getToken()) {
