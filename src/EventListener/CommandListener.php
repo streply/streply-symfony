@@ -9,7 +9,6 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Streply\Enum\EventFlag;
-use function Streply\Exception;
 
 final class CommandListener
 {
@@ -32,20 +31,13 @@ final class CommandListener
 
         unset($arguments['command']);
 
-        $this->streplyClient->activity($name, $arguments, EventFlag::COMMAND);
-    }
-
-    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
-    {
-        if(true === $this->isInitialized) {
-            $this->streplyClient->flush();
-        }
+        \Streply\Activity($name, $arguments, null, EventFlag::COMMAND);
     }
 
     public function onConsoleError(ConsoleErrorEvent $event): void
     {
         if(true === $this->isInitialized) {
-            Exception($event->getError());
+            \Streply\Exception($event->getError());
         }
     }
 }

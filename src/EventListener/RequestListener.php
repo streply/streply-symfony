@@ -6,13 +6,11 @@ use Streply\Exceptions\InvalidDsnException;
 use Streply\Exceptions\InvalidUserException;
 use Streply\Exceptions\NotInitializedException;
 use Streply\StreplyBundle\StreplyClient;
-use Streply\StreplyBundle\Route\Params;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use function Streply\Exception;
 
 final class RequestListener
 {
@@ -30,17 +28,13 @@ final class RequestListener
 
     public function onKernelRequest(RequestEvent $event): void
     {
-		if(method_exists($event, 'isMainRequest')) {
-			if(!$event->isMainRequest()) {
-				return;
-			}
-		}
+		if(method_exists($event, 'isMainRequest') && !$event->isMainRequest()) {
+            return;
+        }
 
-		if(method_exists($event, 'isMasterRequest')) {
-			if(!$event->isMasterRequest()) {
-				return;
-			}
-		}
+		if(method_exists($event, 'isMasterRequest') && !$event->isMasterRequest()) {
+            return;
+        }
 
         $this->streplyClient->initialize();
         $this->streplyClient->user($this->getUser());
@@ -48,25 +42,10 @@ final class RequestListener
         $this->isInitialized = true;
     }
 
-    public function onKernelResponse(ResponseEvent $event): void
-    {
-        if($this->isInitialized === true) {
-			$params = new Params($event);
-			$routeName = $params->getRouteName();
-
-			if(null !== $routeName) {
-				$this->streplyClient->setRoute($routeName);
-			}
-
-			$this->streplyClient->user($this->getUser());
-            $this->streplyClient->flush();
-        }
-    }
-
     public function onKernelException(ExceptionEvent $event): void
     {
         if($this->isInitialized === true) {
-            Exception($event->getThrowable());
+            \Streply\Exception($event->getThrowable());
         }
     }
 

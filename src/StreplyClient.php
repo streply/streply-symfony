@@ -2,11 +2,11 @@
 
 namespace Streply\StreplyBundle;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+use Streply\Responses\Entity;
 use Streply\Exceptions\InvalidDsnException;
 use Streply\Exceptions\InvalidUserException;
 use Streply\Streply;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Streply\Responses\Entity;
 
 final class StreplyClient
 {
@@ -25,25 +25,10 @@ final class StreplyClient
         Streply::Initialize($this->dsn, $this->options);
     }
 
-    public function flush(): void
-    {
-        Streply::Flush();
-    }
-
     public function user(?UserInterface $user)
     {
         if (null !== $user) {
             Streply::User($user->getUserIdentifier());
         }
     }
-
-    public function activity(string $name, array $parameters = [], ?string $flag = null): Entity
-    {
-        return \Streply\Activity($name, $parameters, null, $flag);
-    }
-
-	public function setRoute(?string $route): void
-	{
-		Streply::Properties()->setForPerformance('route', $route);
-	}
 }
