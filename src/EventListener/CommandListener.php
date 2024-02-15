@@ -34,6 +34,11 @@ final class CommandListener
         \Streply\Activity($name, $arguments, null, EventFlag::COMMAND);
     }
 
+    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
+    {
+
+    }
+
     public function onConsoleError(ConsoleErrorEvent $event): void
     {
         if(true === $this->isInitialized) {
