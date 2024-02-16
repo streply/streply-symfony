@@ -27,11 +27,15 @@ final class CommandListener
         $this->isInitialized = true;
 
         $arguments = $event->getInput()->getArguments();
-        $name = $arguments['command'];
+        $command = $arguments['command'];
 
         unset($arguments['command']);
 
-        \Streply\Activity($name, $arguments, null, EventFlag::COMMAND);
+        \Streply\withScope(function (\Streply\Scope $scope) use ($command, $arguments): void {
+            $scope->setFlag(EventFlag::COMMAND);
+
+            \Streply\Activity($command, $arguments);
+        });
     }
 
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void
